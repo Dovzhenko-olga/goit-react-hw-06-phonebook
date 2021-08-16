@@ -1,10 +1,12 @@
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './PhoneBook.module.css';
+import * as actions from '../../redux/contact-actions';
 
-const PhoneBook = ({ contacts, onDeleteContact }) => (
+const PhoneBook = ({ contact, onDeleteContact }) => (
 
   <ul className={styles.list}>
-    {contacts.map(({ id, name, number }) => (
+    {contact.map(({ id, name, number }) => (
       <li className={styles.item} key={id}>
         <span>{name}:</span> <span>{number}</span>
         <button className={styles.button} onClick={() => onDeleteContact(id)}>Delete</button>
@@ -22,4 +24,18 @@ PhoneBook.propTypes = {
   onDeleteContact: PropTypes.func.isRequired,
 };
 
-export default PhoneBook;
+const filteredContacts = (contacts, filter) => {
+    const normalizedSearch = filter.toLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedSearch));
+  }
+
+const mapStateToProps = ({ contact: { contacts, filter }}) => ({
+  contact: filteredContacts(contacts, filter),
+});
+
+const mapDispatchToProps = dispatch => ({
+    onDeleteContact: contactId => dispatch(actions.deleteContact(contactId)),
+  })
+
+export default connect(mapStateToProps, mapDispatchToProps)(PhoneBook);
