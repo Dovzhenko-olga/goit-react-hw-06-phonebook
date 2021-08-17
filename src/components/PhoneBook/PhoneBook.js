@@ -16,7 +16,7 @@ const PhoneBook = ({ contact, onDeleteContact }) => (
 );
 
 PhoneBook.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.shape({
+  contact: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     number: PropTypes.string.isRequired,
@@ -26,8 +26,8 @@ PhoneBook.propTypes = {
 
 const filteredContacts = (contacts, filter) => {
     const normalizedSearch = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedSearch));
+    return contacts.filter(({name}) =>
+      name.toLowerCase().includes(normalizedSearch));
   }
 
 const mapStateToProps = ({ contact: { contacts, filter }}) => ({
@@ -35,7 +35,7 @@ const mapStateToProps = ({ contact: { contacts, filter }}) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onDeleteContact: contactId => dispatch(actions.deleteContact(contactId)),
+    onDeleteContact: contactId => dispatch(actions.deleted(contactId)),
   })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhoneBook);

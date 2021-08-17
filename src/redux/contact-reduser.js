@@ -1,5 +1,6 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import actionTypes from './contact-types';
+import { add, deleted, changeFilter } from './contact-actions';
 
 const contactList = [
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -8,34 +9,49 @@ const contactList = [
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ]
 
-const contacts = (state = contactList, { type, payload }) => {
-  switch (type) {
-    case actionTypes.ADD:
-      if (state.some(contact => contact.name === payload.name)) {
-      // toggleModal(name);
+const contacts = createReducer(contactList, {
+  [add]: (state, { payload }) => {
+    if(state.some(contact => contact.name === payload.name)) {
       alert(`${payload.name} already in contacts. Rewrite number?`);
       return state;
       } else {
         return [payload, ...state];
-    }
-    
-    case actionTypes.DELETE:
-      return state.filter(({id}) => id !== payload);
-    
-    default:
-      return state;
-  }
-};
+    }},
+  [deleted]: (state, { payload }) => state.filter(({id}) => id !== payload),
+})
 
-const filter = (state = '', { type, payload }) => {
-  switch (type) {
-    case actionTypes.CHANGE_FILTER:
-      return payload;
+// const contacts = (state = contactList, { type, payload }) => {
+//   switch (type) {
+//     case add:
+//       if (state.some(contact => contact.name === payload.name)) {
+//       // toggleModal(name);
+//       alert(`${payload.name} already in contacts. Rewrite number?`);
+//       return state;
+//       } else {
+//         return [payload, ...state];
+//     }
     
-    default:
-      return state;
-  }
-}
+//     case deleted:
+//       return state.filter(({id}) => id !== payload);
+    
+//     default:
+//       return state;
+//   }
+// };
+
+const filter = createReducer('', {
+  [changeFilter]: (_, { payload }) => payload,
+})
+
+// const filter = (state = '', { type, payload }) => {
+//   switch (type) {
+//     case changeFilter:
+//       return payload;
+    
+//     default:
+//       return state;
+//   }
+// }
 
 export default combineReducers({
   contacts,
