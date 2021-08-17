@@ -22,7 +22,7 @@ export default function App() {
           <button className={styles.modalButton} type="button" onClick={toggleModal}>Close</button>
         </Modal>}
         <Section title="Phonebook">
-          <Form />
+        <Form onShowModal={toggleModal}/>
         </Section>
         <Section title="Contacts">
           <Filter />

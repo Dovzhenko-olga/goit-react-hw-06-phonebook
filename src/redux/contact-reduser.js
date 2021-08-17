@@ -11,12 +11,8 @@ const contactList = [
 
 const contacts = createReducer(contactList, {
   [addContact]: (state, { payload }) => {
-    if(state.some(contact => contact.name === payload.name)) {
-      alert(`${payload.name} already in contacts. Rewrite number?`);
-      return state;
-      } else {
-        return [payload, ...state];
-    }},
+      return [payload, ...state];
+    },
   [deleteContact]: (state, { payload }) => state.filter(({id}) => id !== payload),
 })
 
