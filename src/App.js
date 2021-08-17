@@ -5,7 +5,6 @@ import Form from './components/Form';
 import PhoneBook from './components/PhoneBook';
 import Filter from './components/Filter';
 import Modal from './components/Modal';
-// import useLocalStorage from './hooks/useLocalStorage';
 import styles from './App.module.css';
 
 export default function App() {
