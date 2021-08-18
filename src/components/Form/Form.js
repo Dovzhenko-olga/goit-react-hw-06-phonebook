@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import {addContact} from '../../redux/contact-actions';
+import { addContact } from '../../redux/contact-actions';
+import { getContacts } from "../../redux/contact-selectors";
 import styles from './Form.module.css';
 
 
 function Form({onShowModal}) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(state => state.contact.contacts);
+  const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const handleChange = e => {
